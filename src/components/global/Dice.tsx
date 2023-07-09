@@ -178,10 +178,12 @@ export default function Dice({ eyes, fixed, ...props }: DiceProps) {
          const key = setInterval(() => {
             setIdx((idx) => ((idx + 1) % 6) + 1);
          }, 100);
+
          setTimeout(() => {
             clearInterval(key);
+            setIdx(eyes);
          }, 500);
-         setIdx(eyes);
+
          return () => clearInterval(key);
       }
    }, [eyes]);
