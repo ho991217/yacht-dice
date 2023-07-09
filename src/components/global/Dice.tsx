@@ -1,9 +1,28 @@
 import { styled } from "styled-components";
 import { theme } from "../../styles/theme";
+import { useEffect, useState } from "react";
 
-const Container = styled.div`
+const Container = styled.div<{ eyes: number }>`
    width: 3.125rem;
    height: 3.125rem;
+   @keyframes shake {
+      0% {
+         transform: rotate(0deg);
+      }
+      25% {
+         transform: rotate(10deg);
+      }
+      50% {
+         transform: rotate(0deg);
+      }
+      75% {
+         transform: rotate(-10deg);
+      }
+      100% {
+         transform: rotate(0deg);
+      }
+   }
+   ${({ eyes }) => eyes > 0 && "animation: shake 0.5s ease-in-out;"}
 `;
 
 interface DiceProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -12,6 +31,8 @@ interface DiceProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export default function Dice({ eyes, fixed, ...props }: DiceProps) {
+   const [idx, setIdx] = useState(0);
+
    const EYES = [
       null,
       <circle
@@ -151,8 +172,22 @@ export default function Dice({ eyes, fixed, ...props }: DiceProps) {
          />
       </>,
    ];
+
+   useEffect(() => {
+      if (eyes > 0) {
+         const key = setInterval(() => {
+            setIdx((idx) => ((idx + 1) % 6) + 1);
+         }, 100);
+         setTimeout(() => {
+            clearInterval(key);
+         }, 500);
+         setIdx(eyes);
+         return () => clearInterval(key);
+      }
+   }, [eyes]);
+
    return (
-      <Container {...props}>
+      <Container eyes={eyes} {...props}>
          <svg
             xmlns="http://www.w3.org/2000/svg"
             width="50"
@@ -176,7 +211,7 @@ export default function Dice({ eyes, fixed, ...props }: DiceProps) {
                stroke={fixed ? theme.colors.gray : theme.colors.primary}
                strokeWidth="3"
             />
-            {EYES[eyes]}
+            {EYES[idx]}
          </svg>
       </Container>
    );
