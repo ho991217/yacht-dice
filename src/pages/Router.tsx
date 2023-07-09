@@ -10,7 +10,7 @@ export function Router() {
             <Route path="/" element={<Menu />} />
             <Route path="/single" element={<Single />} />
          </Routes>
-         <Nav />
+         {/* <Nav /> */}
       </BrowserRouter>
    );
 }

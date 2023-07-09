@@ -64,6 +64,7 @@ const Row = styled.tr<{ used?: string }>`
    border-bottom: 1px solid #000;
    height: 35px;
    background: ${({ used }) => (used === "true" ? theme.colors.gray : "white")};
+   transition: all 0.3s ease-in-out;
 `;
 
 const Label = styled.td`
@@ -92,6 +93,24 @@ const Total = styled.tfoot`
 const Modal = styled.dialog`
    background: white;
    border-radius: 8px;
+`;
+
+const Hearts = styled.div`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   margin-bottom: 0.5rem;
+   gap: 8px;
+`;
+
+const Heart = styled.div<{ fill: boolean }>`
+   width: 0.8rem;
+   height: 0.8rem;
+   border-radius: 50%;
+   border: 0.5px solid #000;
+   background: ${({ fill, theme }) =>
+      fill ? theme.colors.secondary : "white"};
+   transition: all 0.3s ease-in-out;
 `;
 
 export default function Single() {
@@ -162,6 +181,12 @@ export default function Single() {
             </div>
          </Modal>
          <Container>
+            <Hearts>
+               <Heart fill={3 - turn >= 0} />
+               <Heart fill={3 - turn >= 1} />
+               <Heart fill={3 - turn >= 2} />
+            </Hearts>
+
             <Table>
                <tbody>
                   {Object.entries(point.upper).map(
