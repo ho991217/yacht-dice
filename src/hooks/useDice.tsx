@@ -31,20 +31,6 @@ export const useDice = () => {
    ]);
    const [turn, setTurn] = useState(0);
 
-   const animateDice = (dice: Dice) => {
-      setTimeout(() => {
-         dice.eyes = Math.floor(Math.random() * 6) + 1;
-      }, 100);
-
-      setTimeout(() => {
-         dice.eyes = Math.floor(Math.random() * 6) + 1;
-      }, 200);
-
-      setTimeout(() => {
-         dice.eyes = Math.floor(Math.random() * 6) + 1;
-      }, 300);
-   };
-
    /**
     * @description
     * 1. dice의 fix가 false인 것만 뽑아서
