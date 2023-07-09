@@ -1,26 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { theme } from "./styles/theme";
+import { ThemeProvider, styled } from "styled-components";
+import { GlobalStyle } from "./styles/globalStyle";
+import { Router } from "./pages/Router";
+
+const Container = styled.div`
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   height: var(--vh);
+   max-width: 445px;
+   margin: 0 auto;
+`;
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+   const setVh = () => {
+      document.documentElement.style.setProperty(
+         "--vh",
+         `${window.innerHeight}px`
+      );
+   };
+
+   useEffect(() => {
+      window.addEventListener("resize", setVh);
+      return () => {
+         window.removeEventListener("resize", setVh);
+      };
+   }, []);
+
+   setVh();
+   return (
+      <ThemeProvider theme={theme}>
+         <GlobalStyle />
+         <Container>
+            <Router />
+         </Container>
+      </ThemeProvider>
+   );
 }
 
 export default App;
